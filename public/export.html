@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinâmicas Escoteiras - Material Digital 2026</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .faq-answer { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.3s ease; }
+        .faq-item.active .faq-answer { max-height: 200px; opacity: 1; padding-top: 1rem; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .selection-green::selection { background: #2D5A27; color: white; }
+    </style>
+</head>
+<body class="bg-white text-gray-900 selection-green antialiased">
+
+    <!-- ⚡ Urgency Bar -->
+    <div class="bg-red-600 py-2 text-center text-[10px] md:text-xs font-black tracking-widest text-white uppercase px-4 sticky top-0 z-50 shadow-sm">
+        ⚡ Oferta válida somente hoje •
+    </div>
+
+    <!-- Upsell Popup Modal -->
+    <div id="upsellModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-white rounded-[2rem] p-4 md:p-6 max-w-sm w-full text-center relative overflow-hidden shadow-[0_0_60px_-10px_rgba(45,90,39,0.6)] border-[10px] border-[#2D5A27] ring-4 ring-[#EAB308]/30 scale-95 opacity-0 transition-all duration-300 transform" id="upsellContent">
+            <!-- Decorative elements in popup -->
+            <div class="absolute top-0 left-0 w-full h-4 bg-[#EAB308] shadow-sm"></div>
+            
+            <div class="mt-4 mb-4">
+                <p class="text-xl text-gray-900 font-black leading-tight uppercase italic tracking-tighter">
+                    LEVE TUDO POR MAIS <br/>
+                    <span class="text-4xl text-[#2D5A27] drop-shadow-[0_2px_2px_rgba(45,90,39,0.2)]">R$ 6,99</span>
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-br from-[#2D5A27]/10 to-white rounded-xl p-4 mb-4 text-left border-2 border-[#2D5A27]/20 shadow-inner">
+                <ul class="space-y-2 text-xs text-gray-900 font-extrabold uppercase tracking-tight">
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27] shrink-0"></i>
+                        +250 dinâmicas escoteiras
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27] shrink-0"></i>
+                        Jogos e atividades em grupos
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27] shrink-0"></i>
+                        Técnicas mateiras e pioneiras
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27] shrink-0"></i>
+                        Histórias para fogo de conselho
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27] shrink-0"></i>
+                        Atualizações mensais e acesso vitalício
+                    </li>
+                </ul>
+            </div>
+
+            <div class="space-y-3">
+                <a 
+                    href="https://pay.lowify.com.br/checkout?product_id=epeeTd" 
+                    class="w-full bg-[#EAB308] text-black font-black py-4 rounded-xl shadow-lg hover:bg-[#d9a607] transition-all text-lg flex items-center justify-center gap-2 active:scale-95 group uppercase"
+                >
+                    EU QUERO!
+                    <i data-lucide="arrow-right" class="w-6 h-6 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+
+                <a 
+                    href="https://pay.lowify.com.br/checkout?product_id=FAsAcG"
+                    class="w-full text-gray-500 font-bold hover:bg-gray-100 py-2 rounded-lg border border-gray-200 transition-all text-[10px] block mx-auto uppercase tracking-wide px-4 text-center cursor-pointer"
+                >
+                    Vou ficar com o de 10,00
+                </a>
+            </div>
+
+            <!-- Close button -->
+            <button 
+                onclick="closeUpsell()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 p-1 text-[10px] font-bold"
+            >
+                ✕
+            </button>
+        </div>
+    </div>
+
+    <!-- --- HERO SECTION --- -->
+    <section class="relative pt-6 pb-12 px-6 md:px-12 bg-[#FDFBF7] overflow-hidden min-h-[90vh] flex flex-col justify-center">
+        <!-- Background Decor -->
+        <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-96 h-96 bg-[#2D5A27]/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-96 h-96 bg-[#EAB308]/10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 leading-[1.1] mb-6 tracking-tighter">
+                +250 Dinâmicas Escoteiras Para Você <span class="text-[#2D5A27]">Nunca Mais Ficar Sem Ideias</span>
+            </h1>
+            
+            <!-- Hero Image Mockup -->
+            <div class="relative max-w-4xl mx-auto mb-10 px-4">
+                <div class="relative z-10 drop-shadow-[0_20px_30px_rgba(45,90,39,0.15)]">
+                    <img 
+                        src="https://i.ibb.co/mrkfMyQ2/e8068454-1771-4e3c-a1df-946124e3af80.png" 
+                        alt="Material Digital Escoteiro" 
+                        class="rounded-2xl border-4 border-white shadow-xl object-contain w-full max-h-[500px] md:max-h-[700px]"
+                    >
+                    <!-- Floating Badge -->
+                    <div class="absolute -top-4 -right-4 bg-[#EAB308] text-[#422006] font-black p-4 rounded-xl shadow-lg border-2 border-white rotate-6 hidden md:block">
+                        <p class="text-[10px] uppercase tracking-widest leading-none">Acesso</p>
+                        <p class="text-lg">VITALÍCIO</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-lg md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto leading-tight font-medium">
+                Organizadas por idade e nível da tropa para facilitar suas atividades <span class="font-bold text-[#2D5A27]">sem improviso</span>.
+            </p>
+
+            <div class="flex flex-col items-center">
+                <a href="#pricing" class="bg-[#2D5A27] text-white font-black py-5 px-12 rounded-2xl shadow-xl hover:bg-[#1f401a] transition-all duration-300 text-xl md:text-2xl tracking-tight uppercase flex items-center gap-3 active:scale-95">
+                    BAIXAR AGORA
+                    <i data-lucide="zap" class="w-6 h-6 fill-white"></i>
+                </a>
+                <p class="mt-4 text-xs text-gray-500 flex items-center gap-2 font-black italic">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27]"></i>
+                    ENTREGA IMEDIATA VIA E-MAIL
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- SEÇÃO — ESSE MATERIAL É PARA VOCÊ QUE --- -->
+    <section class="py-12 px-6 md:px-12 max-w-6xl mx-auto">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-black mb-2">Este material foi feito para você que...</h2>
+            <div class="w-20 h-1.5 bg-[#EAB308] mx-auto rounded-full"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="p-6 bg-green-50 border border-green-100 shadow-sm rounded-2xl flex items-center gap-4 hover:border-[#2D5A27] transition-all duration-300 group">
+                <div class="p-3 bg-white rounded-xl text-[#2D5A27] shadow-sm group-hover:bg-[#2D5A27] group-hover:text-white"><i data-lucide="tent" class="w-5 h-5"></i></div>
+                <p class="text-base font-black text-gray-800 leading-tight">Fica sem ideias para reuniões escoteiras</p>
+            </div>
+            <div class="p-6 bg-yellow-50 border border-yellow-100 shadow-sm rounded-2xl flex items-center gap-4 hover:border-[#2D5A27] transition-all duration-300 group">
+                <div class="p-3 bg-white rounded-xl text-[#2D5A27] shadow-sm group-hover:bg-[#2D5A27] group-hover:text-white"><i data-lucide="zap" class="w-5 h-5"></i></div>
+                <p class="text-base font-black text-gray-800 leading-tight">Quer atividades prontas para aplicar rapidamente</p>
+            </div>
+            <div class="p-6 bg-orange-50 border border-orange-100 shadow-sm rounded-2xl flex items-center gap-4 hover:border-[#2D5A27] transition-all duration-300 group">
+                <div class="p-3 bg-white rounded-xl text-[#2D5A27] shadow-sm group-hover:bg-[#2D5A27] group-hover:text-white"><i data-lucide="star" class="w-5 h-5"></i></div>
+                <p class="text-base font-black text-gray-800 leading-tight">Deseja engajar mais os jovens da tropa</p>
+            </div>
+            <div class="p-6 bg-emerald-50 border border-emerald-100 shadow-sm rounded-2xl flex items-center gap-4 hover:border-[#2D5A27] transition-all duration-300 group">
+                <div class="p-3 bg-white rounded-xl text-[#2D5A27] shadow-sm group-hover:bg-[#2D5A27] group-hover:text-white"><i data-lucide="book-open" class="w-5 h-5"></i></div>
+                <p class="text-base font-black text-gray-800 leading-tight">Precisa de dinâmicas organizadas por faixa etária</p>
+            </div>
+            <div class="p-6 bg-stone-100 border border-stone-200 shadow-sm rounded-2xl flex items-center gap-4 hover:border-[#2D5A27] transition-all duration-300 group">
+                <div class="p-3 bg-white rounded-xl text-[#2D5A27] shadow-sm group-hover:bg-[#2D5A27] group-hover:text-white"><i data-lucide="clock" class="w-5 h-5"></i></div>
+                <p class="text-base font-black text-gray-800 leading-tight">Quer evitar reuniões improvisadas e sem propósito</p>
+            </div>
+            <div class="p-6 bg-red-50 border border-red-100 shadow-sm rounded-2xl flex items-center gap-4 hover:border-[#2D5A27] transition-all duration-300 group">
+                <div class="p-3 bg-white rounded-xl text-[#2D5A27] shadow-sm group-hover:bg-[#2D5A27] group-hover:text-white"><i data-lucide="flame" class="w-5 h-5"></i></div>
+                <p class="text-base font-black text-gray-800 leading-tight">Busca tornar acampamentos memoráveis</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- ORGANIZAÇÃO POR CATEGORIAS --- -->
+    <section class="py-12 px-6 md:px-12 bg-[#FDFBF7]/50">
+        <div class="max-w-xl mx-auto flex flex-col items-center">
+            <div class="flex items-center gap-4 mb-2">
+                <i data-lucide="folder-open" class="w-10 h-10 text-[#2D5A27]"></i>
+                <h2 class="text-3xl md:text-5xl font-black text-[#1a3816] tracking-tight">Organização por Categorias</h2>
+            </div>
+            <div class="w-24 h-2 bg-[#2D5A27] rounded-full mb-10"></div>
+
+            <div class="w-full space-y-3">
+                <div class="w-full py-5 px-8 bg-white rounded-2xl shadow-sm border border-gray-100 text-center font-black text-[#1a3816] text-xl transition-all">Lobinhos (7-10 anos)</div>
+                <div class="w-full py-5 px-8 bg-white rounded-2xl shadow-md border border-[#2D5A27] ring-1 ring-[#2D5A27]/20 text-center font-black text-[#1a3816] text-xl transition-all">Escoteiros (11-14 anos)</div>
+                <div class="w-full py-5 px-8 bg-white rounded-2xl shadow-sm border border-gray-100 text-center font-black text-[#1a3816] text-xl transition-all">Sêniores (15-17 anos)</div>
+                <div class="w-full py-5 px-8 bg-white rounded-2xl shadow-sm border border-gray-100 text-center font-black text-[#1a3816] text-xl transition-all">Pioneiros (18-21 anos)</div>
+                <div class="w-full py-5 px-8 bg-white rounded-2xl shadow-sm border border-gray-100 text-center font-black text-[#1a3816] text-xl transition-all">Quebra-gelo e Integração</div>
+                <div class="w-full py-5 px-8 bg-white rounded-2xl shadow-sm border border-gray-100 text-center font-black text-[#1a3816] text-xl transition-all">Atividades ao Ar Livre</div>
+                <div class="w-full py-5 px-8 bg-white rounded-2xl shadow-sm border border-gray-100 text-center font-black text-[#1a3816] text-xl transition-all">Técnicas Mateiras</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- SEÇÃO — BENEFÍCIOS --- -->
+    <section class="py-12 bg-[#2D5A27] text-white px-6 md:px-12 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-black mb-4 italic">O Que Você Vai Receber</h2>
+                <div class="w-16 h-1 bg-[#EAB308] mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 text-center max-w-4xl mx-auto">
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div class="text-[#EAB308] mb-3 flex justify-center"><i data-lucide="tent" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm md:text-base font-black mb-1 leading-tight">+250 Dinâmicas</h3>
+                    <p class="text-white/60 text-[10px] md:text-xs font-medium uppercase tracking-tighter">Jogos testados</p>
+                </div>
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div class="text-[#EAB308] mb-3 flex justify-center"><i data-lucide="book-open" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm md:text-base font-black mb-1 leading-tight">Organizadas</h3>
+                    <p class="text-white/60 text-[10px] md:text-xs font-medium uppercase tracking-tighter">Por idade e ramo</p>
+                </div>
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div class="text-[#EAB308] mb-3 flex justify-center"><i data-lucide="flame" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm md:text-base font-black mb-1 leading-tight">Jogos Rápidos</h3>
+                    <p class="text-white/60 text-[10px] md:text-xs font-medium uppercase tracking-tighter">Para reuniões</p>
+                </div>
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div class="text-[#EAB308] mb-3 flex justify-center"><i data-lucide="compass" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm md:text-base font-black mb-1 leading-tight">Manual Prático</h3>
+                    <p class="text-white/60 text-[10px] md:text-xs font-medium uppercase tracking-tighter">Liderança aplicada</p>
+                </div>
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div class="text-[#EAB308] mb-3 flex justify-center"><i data-lucide="folder-open" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm md:text-base font-black mb-1 leading-tight">Arquivos PDF</h3>
+                    <p class="text-white/60 text-[10px] md:text-xs font-medium uppercase tracking-tighter">Pronto para imprimir</p>
+                </div>
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div class="text-[#EAB308] mb-3 flex justify-center"><i data-lucide="smartphone" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm md:text-base font-black mb-1 leading-tight">Acesso Digital</h3>
+                    <p class="text-white/60 text-[10px] md:text-xs font-medium uppercase tracking-tighter">No seu celular</p>
+                </div>
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div class="text-[#EAB308] mb-3 flex justify-center"><i data-lucide="zap" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm md:text-base font-black mb-1 leading-tight">Vitalício</h3>
+                    <p class="text-white/60 text-[10px] md:text-xs font-medium uppercase tracking-tighter">Seu para sempre</p>
+                </div>
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div class="text-[#EAB308] mb-3 flex justify-center"><i data-lucide="clock" class="w-6 h-6"></i></div>
+                    <h3 class="text-sm md:text-base font-black mb-1 leading-tight">Updates</h3>
+                    <p class="text-white/60 text-[10px] md:text-xs font-medium uppercase tracking-tighter">Sempre atualizado</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- VEJA EXEMPLOS DO MATERIAL --- -->
+    <section class="py-24 px-6 md:px-12 bg-white flex flex-col items-center">
+        <div class="max-w-4xl text-center mb-16">
+            <h2 class="text-4xl md:text-7xl font-black text-[#1a3816] tracking-tight mb-6">
+                Veja exemplos do <span class="text-[#2D5A27]">material</span>
+            </h2>
+            <p class="text-xl md:text-3xl text-gray-600 leading-relaxed max-w-2xl mx-auto font-medium">
+                Confira algumas das +250 Dinâmicas prontas que você vai receber para usar nos seus encontros
+            </p>
+        </div>
+
+        <div class="w-full max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="relative transition-transform duration-500 hover:scale-[1.01]">
+                <img 
+                    src="https://i.ibb.co/qZh9L3D/Chat-GPT-Image-16-de-mai-de-2026-02-07-00-1.png" 
+                    alt="Exemplos do Material 1" 
+                    class="rounded-[2rem] shadow-2xl w-full object-contain border-4 border-white"
+                >
+            </div>
+            <div class="relative transition-transform duration-500 hover:scale-[1.01]">
+                <img 
+                    src="https://i.ibb.co/YTfFsnkr/Chat-GPT-Image-16-de-mai-de-2026-02-22-36-1.png" 
+                    alt="Exemplos do Material 2" 
+                    class="rounded-[2rem] shadow-2xl w-full object-contain border-4 border-white"
+                >
+            </div>
+            <div class="relative transition-transform duration-500 hover:scale-[1.01]">
+                <img 
+                    src="https://i.ibb.co/HLPVw4z8/Chat-GPT-Image-16-de-mai-de-2026-02-28-56-1.png" 
+                    alt="Exemplos do Material 3" 
+                    class="rounded-[2rem] shadow-2xl w-full object-contain border-4 border-white"
+                >
+            </div>
+            <div class="relative transition-transform duration-500 hover:scale-[1.01]">
+                <img 
+                    src="https://i.ibb.co/WWN6nxkx/Chat-GPT-Image-16-de-mai-de-2026-02-34-38-1.png" 
+                    alt="Exemplos do Material 4" 
+                    class="rounded-[2rem] shadow-2xl w-full object-contain border-4 border-white"
+                >
+            </div>
+            <div class="relative transition-transform duration-500 hover:scale-[1.01]">
+                <img 
+                    src="https://i.ibb.co/Jw4b7f44/Chat-GPT-Image-16-de-mai-de-2026-02-40-10-1.png" 
+                    alt="Exemplos do Material 5" 
+                    class="rounded-[2rem] shadow-2xl w-full object-contain border-4 border-white"
+                >
+            </div>
+        </div>
+    </section>
+
+    <!-- --- DEPOIMENTOS (Moved Up) --- -->
+    <section class="pt-6 pb-24 px-6 md:px-12 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-black text-center mb-12 italic">Quem Já Comprou Recomenda</h2>
+            <div class="space-y-4">
+                <div class="p-6 bg-[#FDFBF7] rounded-3xl shadow-sm flex flex-col md:flex-row gap-6 items-center border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 bg-gray-200 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-md flex items-center justify-center font-black text-[#2D5A27] text-xl">M</div>
+                    <div>
+                        <div class="flex text-[#EAB308] mb-2"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div>
+                        <p class="text-lg text-gray-700 mb-4 italic leading-tight font-medium">"As reuniões da minha tropa ficaram muito mais organizadas e dinâmicas. Os jovens amaram!"</p>
+                        <div class="flex items-center gap-2"><span class="font-black text-gray-900">Marcelo</span><span class="text-[#2D5A27] font-bold text-xs bg-[#2D5A27]/10 px-2 py-0.5 rounded-full">Chefe Escoteiro</span></div>
+                    </div>
+                </div>
+                <div class="p-6 bg-[#FDFBF7] rounded-3xl shadow-sm flex flex-col md:flex-row gap-6 items-center border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 bg-gray-200 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-md flex items-center justify-center font-black text-[#2D5A27] text-xl">F</div>
+                    <div>
+                        <div class="flex text-[#EAB308] mb-2"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div>
+                        <p class="text-lg text-gray-700 mb-4 italic leading-tight font-medium">"Economizei horas procurando atividades. O material é muito completo e fácil de usar."</p>
+                        <div class="flex items-center gap-2"><span class="font-black text-gray-900">Fernanda</span><span class="text-[#2D5A27] font-bold text-xs bg-[#2D5A27]/10 px-2 py-0.5 rounded-full">Voluntária</span></div>
+                    </div>
+                </div>
+                <div class="p-6 bg-[#FDFBF7] rounded-3xl shadow-sm flex flex-col md:flex-row gap-6 items-center border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 bg-gray-200 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-md flex items-center justify-center font-black text-[#2D5A27] text-xl">R</div>
+                    <div>
+                        <div class="flex text-[#EAB308] mb-2"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div>
+                        <p class="text-lg text-gray-700 mb-4 italic leading-tight font-medium">"O engajamento aumentou demais. Ver os jovens participando com brilho no olho não tem preço."</p>
+                        <div class="flex items-center gap-2"><span class="font-black text-gray-900">Ricardo</span><span class="text-[#2D5A27] font-bold text-xs bg-[#2D5A27]/10 px-2 py-0.5 rounded-full">Instrutor</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </section>
+
+    <!-- FAQ Triggered via Scroll or Click -->
+                <div class="faq-anchor"></div>
+
+    <!-- --- OFERTA --- -->
+    <section id="pricing" class="py-16 px-6 md:px-12 bg-white relative overflow-hidden">
+        <div class="max-w-md mx-auto relative z-10">
+            <div class="bg-[#FDFBF7] rounded-[2.5rem] shadow-2xl overflow-hidden border-[8px] border-[#2D5A27] flex flex-col p-8 md:p-12 items-center text-center relative">
+                <!-- Best Value Badge -->
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#2D5A27] text-white text-[10px] font-black px-6 py-2 rounded-full tracking-widest uppercase shadow-lg">
+                    Melhor Custo Benefício
+                </div>
+
+                <h2 class="text-gray-900 text-xl font-black tracking-tighter uppercase mb-6 flex items-center gap-2">
+                    <i data-lucide="zap" class="w-5 h-5 text-[#EAB308] fill-[#EAB308]"></i>
+                    ACESSO COMPLETO
+                </h2>
+
+                <!-- Offer Image -->
+                <div class="relative w-full mb-8">
+                    <img src="https://i.ibb.co/mrkfMyQ2/e8068454-1771-4e3c-a1df-946124e3af80.png" alt="Acesso Completo" class="rounded-xl border-2 border-white shadow-lg object-contain w-full max-h-[200px]">
+                </div>
+                
+                <p class="text-gray-400 line-through text-lg font-bold italic mb-1">DE: R$ 97,00</p>
+                <div class="relative inline-block mb-10 group">
+                    <p class="text-gray-500 font-extrabold uppercase text-[10px] text-center mb-1">POR APENAS:</p>
+                    <div class="flex items-start justify-center gap-1 font-black leading-none">
+                        <span class="text-2xl text-[#2D5A27] mt-3">R$</span>
+                        <span class="text-7xl md:text-8xl text-lime-600 tracking-tighter">10,00</span>
+                    </div>
+                    <!-- Pago Único Badge -->
+                    <div class="absolute -right-16 -top-6 rotate-12 hidden md:block">
+                        <div class="bg-[#EAB308] text-[#422006] text-[10px] font-black p-4 rounded-full shadow-lg border-2 border-white animate-bounce text-center leading-tight">
+                            PAGO<br>ÚNICO
+                        </div>
+                    </div>
+                </div>
+
+                <a href="https://pay.lowify.com.br/checkout.php?product_id=rai1Yr" class="w-full bg-[#2D5A27] text-white text-2xl font-black py-7 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-3 hover:bg-[#1f401a] active:scale-95 group">
+                    SIM! QUERO BAIXAR AGORA
+                    <i data-lucide="arrow-right" class="w-6 h-6 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                
+                <div class="mt-10 flex flex-col gap-3 w-full text-left bg-white/50 p-4 rounded-xl border border-gray-100 font-black text-gray-700 text-[11px]">
+                    <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27]"></i>+250 DINÂMICAS ESCOTEIRAS!</div>
+                    <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27]"></i>DOWNLOAD IMEDIATO (PDF)</div>
+                    <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27]"></i>ACESSO VITALÍCIO + ATUALIZAÇÕES</div>
+                    <div class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-[#2D5A27]"></i>COMPRA 100% SEGURA!</div>
+                    <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-[#EAB308]"></i>7 DIAS DE GARANTIA!</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- GARANTIA SECUNDÁRIA --- -->
+    <section class="py-10 px-6 md:px-12 text-center max-w-4xl mx-auto mb-6">
+        <div class="bg-yellow-50/30 p-12 rounded-[2.5rem] border-2 border-dashed border-[#EAB308]/40 shadow-sm">
+            <div class="flex justify-center mb-6">
+                <div class="w-20 h-20 bg-white rounded-full border-4 border-[#2D5A27] flex items-center justify-center shadow-lg">
+                    <i data-lucide="shield-check" class="w-10 h-10 text-[#2D5A27]"></i>
+                </div>
+            </div>
+            <h2 class="text-3xl font-black mb-4">Garantia Blindada de 7 Dias</h2>
+            <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto font-medium">
+                Se você não amar o material por qualquer motivo, devolvemos <span class="text-[#2D5A27] font-black border-b-2 border-[#EAB308]">100% do seu investimento</span>. O risco é todo nosso.
+            </p>
+        </div>
+    </section>
+
+    <!-- --- FAQ --- -->
+    <section class="py-10 px-6 md:px-12 bg-white">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-black mb-4">Dúvidas Frequentes</h2>
+                <div class="w-16 h-1.5 bg-[#EAB308] mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="space-y-1">
+                <div class="faq-item border-b border-gray-200 py-6 cursor-pointer group" onclick="this.classList.toggle('active')">
+                    <div class="flex justify-between items-center font-bold text-gray-800">
+                        <span class="text-lg group-hover:text-[#2D5A27] transition-colors">Como recebo o acesso?</span>
+                        <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer text-gray-600 italic">Imediatamente após a confirmação do pagamento, você receberá um link de download direto no seu e-mail cadastrado.</div>
+                </div>
+                <div class="faq-item border-b border-gray-200 py-6 cursor-pointer group" onclick="this.classList.toggle('active')">
+                    <div class="flex justify-between items-center font-bold text-gray-800">
+                        <span class="text-lg group-hover:text-[#2D5A27] transition-colors">O material é digital?</span>
+                        <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer text-gray-600 italic">Sim! Você recebe arquivos digitais organizados (PDF), otimizados para leitura em dispositivos móveis e prontos para impressão.</div>
+                </div>
+                <div class="faq-item border-b border-gray-200 py-6 cursor-pointer group" onclick="this.classList.toggle('active')">
+                    <div class="flex justify-between items-center font-bold text-gray-800">
+                        <span class="text-lg group-hover:text-[#2D5A27] transition-colors">Funciona para qualquer ramo?</span>
+                        <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer text-gray-600 italic">Sim, incluímos dinâmicas para Alcatéia (Lobinhos), Tropa Escoteira, Tropa Sênior e Clã Pioneiro.</div>
+                </div>
+                <div class="faq-item border-b border-gray-200 py-6 cursor-pointer group" onclick="this.classList.toggle('active')">
+                    <div class="flex justify-between items-center font-bold text-gray-800">
+                        <span class="text-lg group-hover:text-[#2D5A27] transition-colors">O acesso é vitalício?</span>
+                        <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer text-gray-600 italic">Com certeza. Uma vez adquirido, o material é seu para sempre, incluindo todas as atualizações futuras sem custo adicional.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- RODAPÉ --- -->
+    <footer class="py-16 px-6 md:px-12 bg-[#FDFBF7] border-t border-gray-100 italic">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="flex justify-center mb-8"><i data-lucide="tent" class="w-10 h-10 text-[#2D5A27]"></i></div>
+            <p class="text-gray-600 text-sm mb-8 leading-relaxed max-w-2xl mx-auto font-medium">
+                © 2026 Dinâmicas Escoteiras • Transformando Reuniões em Jornadas.<br>
+                Este material é uma produção independente e não possui vínculo oficial direto com a OMME.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        function openUpsell(e) {
+            if (e) e.preventDefault();
+            const modal = document.getElementById('upsellModal');
+            const content = document.getElementById('upsellContent');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeUpsell() {
+            const modal = document.getElementById('upsellModal');
+            const content = document.getElementById('upsellContent');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        // Apply openUpsell to all CTA buttons
+        document.querySelectorAll('a[href*="checkout.php"]').forEach(el => {
+            el.addEventListener('click', openUpsell);
+        });
+    </script>
+</body>
+</html>
