@@ -106,7 +106,7 @@ export default function App() {
               <div className="mt-4 mb-4">
                 <p className="text-xl text-gray-900 font-black leading-tight uppercase italic tracking-tighter">
                   LEVE TUDO POR MAIS <br/>
-                  <span className="text-4xl text-[#2D5A27] drop-shadow-[0_2px_2px_rgba(45,90,39,0.2)] animate-pulse">R$ 6,99</span>
+                  <span className="text-4xl text-[#2D5A27] drop-shadow-[0_2px_2px_rgba(45,90,39,0.2)] animate-pulse">R$ 3,99</span>
                 </p>
               </div>
 
@@ -557,21 +557,26 @@ export default function App() {
       </section>
 
       {/* --- GARANTIA --- */}
-      <section className="py-10 px-6 md:px-12 text-center max-w-4xl mx-auto mb-6">
+      <section className="py-12 px-6 md:px-12 text-center max-w-4xl mx-auto mb-8">
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="bg-[#EAB308]/5 p-12 rounded-[2.5rem] border-2 border-dashed border-[#EAB308]/40 shadow-sm"
+          className="bg-amber-50/90 p-8 md:p-14 rounded-[2.5rem] border-4 border-dashed border-[#EAB308] shadow-2xl relative"
         >
-          <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 bg-white rounded-full border-4 border-[#2D5A27] flex items-center justify-center shadow-lg">
-              <ShieldCheck className="w-10 h-10 text-[#2D5A27]" />
+          {/* Top Stamp Badge */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#2D5A27] text-[#EAB308] text-xs font-black px-6 py-2.5 rounded-full uppercase tracking-wider shadow-md">
+            Garantia Incondicional
+          </div>
+
+          <div className="flex justify-center mb-6 mt-2">
+            <div className="w-24 h-24 bg-white rounded-full border-4 border-[#2D5A27] flex items-center justify-center shadow-xl">
+              <ShieldCheck className="w-12 h-12 text-[#2D5A27]" />
             </div>
           </div>
-          <h2 className="text-3xl font-black mb-4">Garantia Blindada de 7 Dias</h2>
-          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto font-medium">
-            Se você não amar o material por qualquer motivo, devolvemos <span className="text-[#2D5A27] font-black border-b-2 border-[#EAB308]">100% do seu investimento</span>. O risco é todo nosso.
+          <h2 className="text-3xl md:text-4xl font-black mb-4 text-gray-950">Garantia Blindada de 7 Dias</h2>
+          <p className="text-lg md:text-xl text-gray-800 leading-relaxed max-w-2xl mx-auto font-medium">
+            Se você não amar o material por qualquer motivo, devolvemos <span className="text-[#2D5A27] font-black border-b-4 border-[#EAB308]">100% do seu investimento</span>. O risco é inteiramente nosso. Você entra, avalia e se não fizer sentido, recebe seu dinheiro de volta na hora!
           </p>
         </motion.div>
       </section>
