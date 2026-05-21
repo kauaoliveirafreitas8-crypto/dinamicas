@@ -4,6 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dinâmicas Escoteiras - Material Digital 2026</title>
+    <!-- Safe JSON.stringify to prevent circular reference errors on elements/events -->
+    <script>
+      (function() {
+        var originalStringify = JSON.stringify;
+        JSON.stringify = function(value, replacer, space) {
+          var seen = new WeakSet();
+          return originalStringify(value, function(key, val) {
+            if (typeof val === 'object' && val !== null) {
+              if (seen.has(val)) {
+                return '[Circular]';
+              }
+              seen.add(val);
+            }
+            if (typeof replacer === 'function') {
+              return replacer(key, val);
+            }
+            return val;
+          }, space);
+        };
+      })();
+    </script>
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -45,71 +66,6 @@
     <!-- ⚡ Urgency Bar -->
     <div class="bg-red-600 py-2 text-center text-[10px] md:text-xs font-black tracking-widest text-white uppercase px-4 sticky top-0 z-50 shadow-sm">
         ⚡ Oferta válida somente hoje •
-    </div>
-
-    <!-- Upsell Popup Modal -->
-    <div id="upsellModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-        <div class="bg-white rounded-[2rem] p-4 md:p-6 max-w-sm w-full text-center relative overflow-hidden shadow-[0_0_60px_-10px_rgba(45,90,39,0.6)] border-[10px] border-[#2D5A27] ring-4 ring-[#EAB308]/30 scale-95 opacity-0 transition-all duration-300 transform" id="upsellContent">
-            <!-- Decorative elements in popup -->
-            <div class="absolute top-0 left-0 w-full h-4 bg-[#EAB308] shadow-sm"></div>
-            
-            <div class="mt-4 mb-4">
-                <p class="text-xl text-gray-900 font-black leading-tight uppercase italic tracking-tighter">
-                  LEVE TUDO POR MAIS <br/>
-                  <span class="text-4xl text-[#2D5A27] drop-shadow-[0_2px_2px_rgba(45,90,39,0.2)]">R$ 3,99</span>
-                </p>
-            </div>
-
-            <div class="bg-gradient-to-br from-[#2D5A27]/10 to-white rounded-xl p-4 mb-4 text-left border-2 border-[#2D5A27]/20 shadow-inner">
-                <ul class="space-y-2 text-xs text-gray-900 font-extrabold uppercase tracking-tight">
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27] shrink-0"></i>
-                        +250 dinâmicas escoteiras
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27] shrink-0"></i>
-                        Jogos e atividades em grupos
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27] shrink-0"></i>
-                        Técnicas mateiras e pioneiras
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27] shrink-0"></i>
-                        Histórias para fogo de conselho
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#2D5A27] shrink-0"></i>
-                        Atualizações mensais e acesso vitalício
-                    </li>
-                </ul>
-            </div>
-
-            <div class="space-y-3">
-                <a 
-                    href="https://pay.lowify.com.br/checkout?product_id=epeeTd" 
-                    class="w-full bg-[#EAB308] text-black font-black py-4 rounded-xl shadow-lg hover:bg-[#d9a607] transition-all text-lg flex items-center justify-center gap-2 active:scale-95 group uppercase"
-                >
-                    EU QUERO!
-                    <i data-lucide="arrow-right" class="w-6 h-6 group-hover:translate-x-1 transition-transform"></i>
-                </a>
-
-                <a 
-                    href="https://pay.lowify.com.br/checkout?product_id=FAsAcG"
-                    class="w-full text-gray-500 font-bold hover:bg-gray-100 py-2 rounded-lg border border-gray-200 transition-all text-[10px] block mx-auto uppercase tracking-wide px-4 text-center cursor-pointer"
-                >
-                    Vou ficar com o de 10,00
-                </a>
-            </div>
-
-            <!-- Close button -->
-            <button 
-                onclick="closeUpsell()"
-                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 p-1 text-[10px] font-bold"
-            >
-                ✕
-            </button>
-        </div>
     </div>
 
     <!-- --- HERO SECTION --- -->
@@ -372,11 +328,11 @@
                 </div>
                 
                 <p class="text-gray-400 line-through text-lg font-bold italic mb-1">DE: R$ 97,00</p>
-                <div class="relative inline-block mb-10 group">
+                <div class="relative inline-block mb-10">
                     <p class="text-gray-500 font-extrabold uppercase text-[10px] text-center mb-1">POR APENAS:</p>
-                    <div class="flex items-start justify-center gap-1 font-black leading-none">
-                        <span class="text-2xl text-[#2D5A27] mt-3">R$</span>
-                        <span class="text-7xl md:text-8xl text-lime-600 tracking-tighter">10,00</span>
+                    <div class="flex items-start justify-center gap-1 font-black leading-none group">
+                        <span class="text-2xl text-[#2D5A27] mt-3 group-hover:scale-110 transition-all">R$</span>
+                        <span class="text-7xl md:text-8xl font-black text-[#65a30d] leading-none tracking-tighter group-hover:scale-105 transition-all">5,90</span>
                     </div>
                     <!-- Pago Único Badge -->
                     <div class="absolute -right-16 -top-6 rotate-12 hidden md:block">
@@ -386,7 +342,7 @@
                     </div>
                 </div>
 
-                <a href="https://pay.lowify.com.br/checkout.php?product_id=rai1Yr" class="w-full bg-[#2D5A27] text-white text-2xl font-black py-7 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-3 hover:bg-[#1f401a] active:scale-95 group">
+                <a href="https://pay.lowify.com.br/checkout?product_id=FAsAcG" class="w-full bg-[#2D5A27] text-white text-2xl font-black py-7 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-3 hover:bg-[#1f401a] active:scale-95 group text-center block">
                     SIM! QUERO BAIXAR AGORA
                     <i data-lucide="arrow-right" class="w-6 h-6 group-hover:translate-x-1 transition-transform"></i>
                 </a>
@@ -491,34 +447,6 @@
     <script>
         // Init Lucide Icons
         lucide.createIcons();
-
-        function openUpsell(e) {
-            if (e) e.preventDefault();
-            const modal = document.getElementById('upsellModal');
-            const content = document.getElementById('upsellContent');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => {
-                content.classList.remove('scale-95', 'opacity-0');
-                content.classList.add('scale-100', 'opacity-100');
-            }, 10);
-        }
-
-        function closeUpsell() {
-            const modal = document.getElementById('upsellModal');
-            const content = document.getElementById('upsellContent');
-            content.classList.remove('scale-100', 'opacity-100');
-            content.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 300);
-        }
-
-        // Apply openUpsell to all CTA buttons
-        document.querySelectorAll('a[href*="checkout.php"]').forEach(el => {
-            el.addEventListener('click', openUpsell);
-        });
     </script>
 </body>
 </html>

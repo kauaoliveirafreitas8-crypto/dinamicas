@@ -78,92 +78,12 @@ const CTAButton = ({ children, className = "", onClick }: { children: React.Reac
 );
 
 export default function App() {
-  const [showUpsell, setShowUpsell] = useState(false);
-
   const scrollToPricing = () => {
     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleCTAClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setShowUpsell(true);
-  };
-
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-[#2D5A27] selection:text-white">
-      <AnimatePresence>
-        {showUpsell && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-[2rem] p-4 md:p-6 max-w-sm w-full text-center relative overflow-hidden shadow-[0_0_60px_-10px_rgba(45,90,39,0.6)] border-[10px] border-[#2D5A27] ring-4 ring-[#EAB308]/30"
-            >
-              {/* Decorative elements in popup */}
-              <div className="absolute top-0 left-0 w-full h-4 bg-[#EAB308] shadow-sm" />
-              
-              <div className="mt-4 mb-4">
-                <p className="text-xl text-gray-900 font-black leading-tight uppercase italic tracking-tighter">
-                  LEVE TUDO POR MAIS <br/>
-                  <span className="text-4xl text-[#2D5A27] drop-shadow-[0_2px_2px_rgba(45,90,39,0.2)] animate-pulse">R$ 3,99</span>
-                </p>
-              </div>
-
-              <div className="bg-gradient-to-br from-[#2D5A27]/10 to-white rounded-xl p-4 mb-4 text-left border-2 border-[#2D5A27]/20 shadow-inner">
-                <ul className="space-y-2 text-xs text-gray-900 font-extrabold uppercase tracking-tight">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#2D5A27] shrink-0" />
-                    +250 dinâmicas escoteiras
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#2D5A27] shrink-0" />
-                    Jogos e atividades em grupos
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#2D5A27] shrink-0" />
-                    Técnicas mateiras e pioneiras
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#2D5A27] shrink-0" />
-                    Histórias para fogo de conselho
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#2D5A27] shrink-0" />
-                    Atualizações mensais e acesso vitalício
-                  </li>
-                </ul>
-              </div>
-
-              <div className="space-y-3">
-                <a 
-                  href="https://pay.lowify.com.br/checkout?product_id=epeeTd" 
-                  className="w-full bg-[#EAB308] text-black font-black py-4 rounded-xl shadow-lg hover:bg-[#d9a607] transition-all text-lg flex items-center justify-center gap-2 active:scale-95 group uppercase"
-                >
-                  EU QUERO!
-                  <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                </a>
-
-                <a 
-                  href="https://pay.lowify.com.br/checkout?product_id=FAsAcG"
-                  className="w-full text-gray-500 font-bold hover:bg-gray-100 py-2 rounded-lg border border-gray-200 transition-all text-[10px] flex items-center justify-center cursor-pointer"
-                >
-                  Vou ficar com o de 10,00
-                </a>
-              </div>
-
-              {/* Close button */}
-              <button 
-                onClick={() => setShowUpsell(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 p-1 text-[10px] font-bold"
-              >
-                ✕
-              </button>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
       {/* ⚡ Urgency Bar */}
       <div className="bg-red-600 py-2 text-center text-xs font-black tracking-widest text-white uppercase px-4">
         ⚡ Oferta válida somente hoje •
@@ -512,7 +432,7 @@ export default function App() {
               <p className="text-gray-500 font-extrabold uppercase text-[10px] text-center mb-1">POR APENAS:</p>
               <div className="flex items-start justify-center gap-1 group">
                 <span className="text-2xl font-black text-[#2D5A27] mt-3 group-hover:scale-110 transition-all">R$</span>
-                <span className="text-7xl md:text-8xl font-black text-[#65a30d] leading-none tracking-tighter group-hover:scale-105 transition-all">10,00</span>
+                <span className="text-7xl md:text-8xl font-black text-[#65a30d] leading-none tracking-tighter group-hover:scale-105 transition-all">5,90</span>
               </div>
               <div className="absolute -right-16 -top-6 rotate-12 hidden md:block">
                 <div className="bg-[#EAB308] text-[#422006] text-[10px] font-black p-4 rounded-full shadow-lg border-2 border-white animate-bounce text-center leading-tight">
@@ -521,14 +441,14 @@ export default function App() {
               </div>
             </div>
 
-            <button
-              onClick={handleCTAClick}
-              className="w-full bg-[#2D5A27] text-white text-2xl font-black py-7 rounded-2xl shadow-[0_15px_30px_rgba(45,90,39,0.4)] transition-all flex items-center justify-center gap-3 hover:bg-[#1f401a] active:scale-95 group uppercase"
+            <a
+              href="https://pay.lowify.com.br/checkout?product_id=FAsAcG"
+              className="w-full bg-[#2D5A27] text-white text-2xl font-black py-7 rounded-2xl shadow-[0_15px_30px_rgba(45,90,39,0.4)] transition-all flex items-center justify-center gap-3 hover:bg-[#1f401a] active:scale-95 group uppercase text-center"
               id="cta-final-purchase"
             >
               SIM! QUERO BAIXAR AGORA
               <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </a>
             
             <div className="mt-10 flex flex-col gap-3 w-full text-left bg-white/50 p-4 rounded-xl border border-gray-100">
                 <div className="flex items-center gap-2 text-[11px] font-black text-gray-700">

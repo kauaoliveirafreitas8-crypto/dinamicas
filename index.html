@@ -4,6 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Google AI Studio App</title>
+    <!-- Safe JSON.stringify to prevent circular reference errors on elements/events -->
+    <script>
+      (function() {
+        var originalStringify = JSON.stringify;
+        JSON.stringify = function(value, replacer, space) {
+          var seen = new WeakSet();
+          return originalStringify(value, function(key, val) {
+            if (typeof val === 'object' && val !== null) {
+              if (seen.has(val)) {
+                return '[Circular]';
+              }
+              seen.add(val);
+            }
+            if (typeof replacer === 'function') {
+              return replacer(key, val);
+            }
+            return val;
+          }, space);
+        };
+      })();
+    </script>
     <!-- UTMify Pixel -->
     <script>
       window.pixelId = "6a0dcb17aeccad565adfe6d7";
